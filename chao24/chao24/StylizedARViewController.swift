@@ -65,24 +65,36 @@ class StylizedARViewController: UIViewController {
     }
     
     func addPortal() {
-        var particles = ParticleEmitterComponent()
-        particles.emitterShape = .cylinder
-        particles.mainEmitter.birthRate = 1000
-        particles.birthDirection = .normal
-        particles.emitterShapeSize = [0.5, 0.05, 0.5]
-        particles.mainEmitter.lifeSpan = 0.15
-        particles.speed = 0.3
-        particles.mainEmitter.size = 0.05
-        particles.mainEmitter.opacityCurve = .linearFadeOut
-        particles.mainEmitter.vortexDirection = .init(x: 0, y: 0, z: 1)
-        particles.mainEmitter.vortexStrength = 10
         
-        particles.mainEmitter.color = .evolving(
-            start: .single(.yellow),
-            end: .single(.orange.withAlphaComponent(0))
-        )
-        portalEntity.components.set(particles)
-        portalEntity.orientation = simd_quatf(angle: 90 / 180 * .pi, axis: .init(x: 1, y: 0, z: 0))
+        func makeParticleEmitter(angle: Float) -> ModelEntity {
+            var particles = ParticleEmitterComponent.Presets.sparks
+            particles.timing = .repeating(warmUp: 0, emit: .init(duration: .infinity))
+            let entity = ModelEntity()
+            entity.components.set(particles)
+            entity.transform.rotation = .init(angle: 90 / 180 * .pi + angle, axis: .init(x: 1, y: 0, z: 0))
+            return entity
+        }
+        
+//        portalEntity.components.set(particles)
+//        portalEntity.orientation = simd_quatf(angle: 90 / 180 * .pi, axis: .init(x: 1, y: 0, z: 0))
+//        portalEntity.position = .init(x: 0, y: 0, z: -1)
+//        anchor.addChild(portalEntity)
+        
+        
+        let radius: Float = 1  // Radius of the circle
+        let numEmitters = 100    // Number of emitters in the circle
+        
+        for i in 0..<numEmitters {
+            let angle = Float(i) / Float(numEmitters) * 2 * .pi
+            let x = radius * cos(angle)
+            let y = radius * sin(angle)
+            let position = SIMD3<Float>(x, y, -2) // z = 0 keeps it on the plane
+            
+            let emitterEntity = makeParticleEmitter(angle: angle)
+            emitterEntity.position = position
+            portalEntity.addChild(emitterEntity)
+        }
+        
         portalEntity.position = .init(x: 0, y: 0, z: -1)
         anchor.addChild(portalEntity)
     }
@@ -142,7 +154,7 @@ extension StylizedARViewController: ARSessionDelegate {
         print(distanceFromPortal)
         if distanceFromPortal <= 0.6 {
             isIdentity.toggle()
-            portalEntity.position -= 5 * displacement
+            portalEntity.position -= 10 * displacement
         }
     }
     
