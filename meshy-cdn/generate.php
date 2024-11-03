@@ -79,6 +79,12 @@ if (!file_exists($file) && !file_exists($lockfile)) {
 		$file,
 		http_get($status['model_urls']['usdz'], [])
 	);
+	$prompt_clean = str_replace("\n", ' ', $prompt);
+	file_put_contents(
+		'../meshy-files/tracker',
+		"$prompt_clean\n",
+		FILE_APPEND
+	);
 	unlink($lockfile);
 }
 else http_response_code(201);

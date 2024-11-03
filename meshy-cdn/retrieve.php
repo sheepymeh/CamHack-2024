@@ -5,7 +5,7 @@ require 'include.php';
 if (file_exists($file)) {
 	header('Content-Description: File Transfer');
 	header('Content-Type: application/octet-stream');
-	header('Content-Disposition: attachment; filename="' . substr($prompt, 0, 24) . '.usdz"');
+	header('Content-Disposition: attachment; filename="' . $prompt . '.usdz"');
 	header('Expires: 0');
 	header('Cache-Control: must-revalidate');
 	header('Pragma: public');
