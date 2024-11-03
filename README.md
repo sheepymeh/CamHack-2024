@@ -1,3 +1,6 @@
+# Project Strange
+Inspired by Marvel's Doctor Strange, this project portals users into an immersive AR experience in the worlds of alternate realities. 
+
 ## Inspiration
 The Interdimensional Portal in Dr. Strange allows people to walk through it to a whole new location. We want to bring a portal to a different world into the palm of our hands (teleportation not yet implemented).
 
@@ -19,4 +22,4 @@ We learned project management skills and balancing the workload between the diff
 ## What's next for Strange
 We could add support for arbitrary filters based on images and text to make it a true portal to any world. Multiplayer, collaborative worldbuilding is also an exciting idea that could bring worldwide fan bases closer together.
 
-# Model Links:
+### Model Links:
